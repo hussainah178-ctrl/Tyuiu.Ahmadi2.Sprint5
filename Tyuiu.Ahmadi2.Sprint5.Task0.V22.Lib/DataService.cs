@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using tyuiu.cources.programming.interfaces.Sprint5;
 
 namespace Tyuiu.Ahmadi2.Sprint5.Task0.V22.Lib
@@ -23,7 +24,10 @@ namespace Tyuiu.Ahmadi2.Sprint5.Task0.V22.Lib
             string tempPath = System.IO.Path.GetTempPath();
             string filePath = System.IO.Path.Combine(tempPath, "OutPutFileTask0.txt");
 
-            System.IO.File.WriteAllText(filePath, result.ToString("F3"));
+           
+            string formattedResult = result.ToString("F3", CultureInfo.GetCultureInfo("de-DE"));
+
+            System.IO.File.WriteAllText(filePath, formattedResult);
             return filePath;
         }
 
