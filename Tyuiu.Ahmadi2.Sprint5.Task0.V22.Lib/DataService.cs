@@ -24,8 +24,8 @@ namespace Tyuiu.Ahmadi2.Sprint5.Task0.V22.Lib
             string tempPath = System.IO.Path.GetTempPath();
             string filePath = System.IO.Path.Combine(tempPath, "OutPutFileTask0.txt");
 
-            
-            string formattedResult = result.ToString("F3", CultureInfo.InvariantCulture).Replace('.', ',');
+            string formattedResult = result.ToString("F3", CultureInfo.GetCultureInfo("de-DE"));
+            // string formattedResult = result.ToString("F3", CultureInfo.InvariantCulture).Replace('.', ',');
 
             System.IO.File.WriteAllText(filePath, formattedResult);
             return filePath;
