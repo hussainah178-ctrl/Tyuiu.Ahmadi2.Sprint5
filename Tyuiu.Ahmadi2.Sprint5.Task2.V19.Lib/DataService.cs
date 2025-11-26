@@ -47,7 +47,8 @@ namespace Tyuiu.Ahmadi2.Sprint5.Task2.V19.Lib
                         if (j < cols - 1)
                             writer.Write(";");
                     }
-                    writer.WriteLine();
+                    if (i < rows - 1)
+                        writer.WriteLine();
                 }
             }
 
@@ -64,12 +65,12 @@ namespace Tyuiu.Ahmadi2.Sprint5.Task2.V19.Lib
             {
                 for (int j = 0; j < cols; j++)
                 {
-                    result += matrix[i, j].ToString().PadLeft(2);
+                    result += matrix[i, j];
                     if (j < cols - 1)
-                        result += "; ";
+                        result += ";";
                 }
                 if (i < rows - 1)
-                    result += Environment.NewLine;
+                    result += "\\n";
             }
 
             return result;
