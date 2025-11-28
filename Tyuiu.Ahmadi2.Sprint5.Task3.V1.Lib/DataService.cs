@@ -4,7 +4,7 @@ using tyuiu.cources.programming.interfaces.Sprint5;
 
 namespace Tyuiu.Ahmadi2.Sprint5.Task3.V1.Lib
 {
-    public class DataService : ISprint5Task5V1
+    public class DataService :ISprint5Task3V1
     {
         public double Calculate(int x)
         {
@@ -44,6 +44,11 @@ namespace Tyuiu.Ahmadi2.Sprint5.Task3.V1.Lib
         }
 
         public double LoadFromDataFile(string path)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string SaveToFileTextData(int x)
         {
             throw new NotImplementedException();
         }
