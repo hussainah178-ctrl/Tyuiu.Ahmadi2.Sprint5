@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Globalization;
 using tyuiu.cources.programming.interfaces.Sprint5;
 
 namespace Tyuiu.Ahmadi2.Sprint5.Task4.V25.Lib
@@ -8,17 +9,20 @@ namespace Tyuiu.Ahmadi2.Sprint5.Task4.V25.Lib
     {
         public double LoadFromDataFile(string path)
         {
-            // Read the value from file
-            string strX = File.ReadAllText(path);
+            try
+            {
+                string strX = File.ReadAllText(path).Trim();
 
-            // Convert to double (handle culture-specific formatting)
-            double x = Convert.ToDouble(strX);
+                double x = double.Parse(strX, CultureInfo.InvariantCulture);
 
-            // Calculate the formula: y = (x^4 + cos(x)) * sin(x)
-            double y = (Math.Pow(x, 4) + Math.Cos(x)) * Math.Sin(x);
+                double y = (Math.Pow(x, 4) + Math.Cos(x)) * Math.Sin(x);
 
-            // Round to 3 decimal places
-            return Math.Round(y, 3);
+                return Math.Round(y, 3);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error reading file: {ex.Message}");
+            }
         }
     }
 }

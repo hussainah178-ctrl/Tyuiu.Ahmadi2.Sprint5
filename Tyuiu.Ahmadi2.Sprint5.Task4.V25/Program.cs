@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Tyuiu.Ahmadi2.Sprint5.Task4.V25.Lib;
 
 namespace Tyuiu.Ahmadi2.Sprint5.Task4.V25
@@ -9,7 +10,13 @@ namespace Tyuiu.Ahmadi2.Sprint5.Task4.V25
         {
             DataService ds = new DataService();
 
-            string path = @"C:\DataSprint5\InPutDataFileTask4V0.txt";
+            string tempPath = Path.GetTempPath();
+            string path = Path.Combine(tempPath, "InPutDataFileTask4V0.txt");
+
+            if (!File.Exists(path))
+            {
+                File.WriteAllText(path, "2.5");
+            }
 
             Console.WriteLine("***************************************************************************");
             Console.WriteLine("* ИСХОДНЫЕ ДАННЫЕ:                                                        *");
