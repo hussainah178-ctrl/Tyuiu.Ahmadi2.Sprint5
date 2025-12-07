@@ -1,8 +1,9 @@
 ﻿using System;
+using tyuiu.cources.programming.interfaces.Sprint5;
 
 namespace Tyuiu.Ahmadi2.Sprint5.Task1.V7.Lib
 {
-    public class DataService
+    public class DataService :ISprint5Task1V7
     {
         public double[,] GetMatrix(double startValue, double stopValue)
         {
@@ -54,6 +55,11 @@ namespace Tyuiu.Ahmadi2.Sprint5.Task1.V7.Lib
             }
 
             return path;
+        }
+
+        public string SaveToFileTextData(int startValue, int stopValue)
+        {
+            throw new NotImplementedException();
         }
     }
 }
