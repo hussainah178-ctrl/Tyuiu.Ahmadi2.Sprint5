@@ -30,7 +30,7 @@ namespace Tyuiu.Ahmadi2.Sprint5.Task5.V3.Test
                 // Expected: 10 + 3.142 + 5 + 2.718 + 7 = 27.86
                 double expected1 = 10 + Math.Round(3.14159, 3) + 5 + Math.Round(2.71828, 3) + 7;
                 expected1 = Math.Round(expected1, 3);
-                double result1 = ds.LoadFromDataFile(path);
+                double result1 = ((global::tyuiu.cources.programming.interfaces.Sprint5.ISprint5Task5V3)ds).LoadFromDataFile(path);
                 Assert.AreEqual(expected1, result1, 0.001);
 
                 // Test case 2: Only integers
@@ -38,7 +38,7 @@ namespace Tyuiu.Ahmadi2.Sprint5.Task5.V3.Test
                 File.WriteAllLines(path, testData2);
 
                 double expected2 = 15; // 1+2+3+4+5
-                double result2 = ds.LoadFromDataFile(path);
+                double result2 = ((global::tyuiu.cources.programming.interfaces.Sprint5.ISprint5Task5V3)ds).LoadFromDataFile(path);
                 Assert.AreEqual(expected2, result2);
 
                 // Test case 3: Only real numbers
@@ -47,7 +47,7 @@ namespace Tyuiu.Ahmadi2.Sprint5.Task5.V3.Test
 
                 double expected3 = Math.Round(1.234, 3) + Math.Round(2.345, 3) + Math.Round(3.456, 3);
                 expected3 = Math.Round(expected3, 3);
-                double result3 = ds.LoadFromDataFile(path);
+                double result3 = ((global::tyuiu.cources.programming.interfaces.Sprint5.ISprint5Task5V3)ds).LoadFromDataFile(path);
                 Assert.AreEqual(expected3, result3, 0.001);
 
                 // Test case 4: Empty lines and spaces
@@ -56,7 +56,7 @@ namespace Tyuiu.Ahmadi2.Sprint5.Task5.V3.Test
 
                 double expected4 = 10 + Math.Round(5.678, 3) + 3;
                 expected4 = Math.Round(expected4, 3);
-                double result4 = ds.LoadFromDataFile(path);
+                double result4 = ((global::tyuiu.cources.programming.interfaces.Sprint5.ISprint5Task5V3)ds).LoadFromDataFile(path);
                 Assert.AreEqual(expected4, result4, 0.001);
 
                 // Test case 5: Negative numbers
@@ -65,7 +65,7 @@ namespace Tyuiu.Ahmadi2.Sprint5.Task5.V3.Test
 
                 double expected5 = -10 + Math.Round(3.5, 3) + (-2) + Math.Round(-1.333, 3);
                 expected5 = Math.Round(expected5, 3);
-                double result5 = ds.LoadFromDataFile(path);
+                double result5 = ((global::tyuiu.cources.programming.interfaces.Sprint5.ISprint5Task5V3)ds).LoadFromDataFile(path);
                 Assert.AreEqual(expected5, result5, 0.001);
             }
             finally
@@ -81,7 +81,7 @@ namespace Tyuiu.Ahmadi2.Sprint5.Task5.V3.Test
         {
             DataService ds = new DataService();
             string path = @"C:\NonExistentPath\NonExistentFile.txt";
-            ds.LoadFromDataFile(path);
+            ((global::tyuiu.cources.programming.interfaces.Sprint5.ISprint5Task5V3)ds).LoadFromDataFile(path);
         }
     }
 }

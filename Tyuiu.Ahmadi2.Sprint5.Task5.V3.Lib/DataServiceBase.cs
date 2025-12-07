@@ -1,16 +1,13 @@
-﻿using System;
-using System.IO;
-using System.Globalization;
-using tyuiu.cources.programming.interfaces.Sprint5;
+﻿using System.Globalization;
 
 namespace Tyuiu.Ahmadi2.Sprint5.Task5.V3.Lib
 {
-    public class DataService : ISprint5Task5V3
+    public class DataServiceBase
     {
         public double LoadFromDataFile(string path)
         {
             double sum = 0;
-            int count = 0; 
+            int count = 0;
 
             try
             {
@@ -31,20 +28,20 @@ namespace Tyuiu.Ahmadi2.Sprint5.Task5.V3.Lib
                         double rounded = Math.Round(number);
                         double diff = Math.Abs(number - rounded);
 
-                        if (diff < 0.0000001) 
+                        if (diff < 0.0000001)
                         {
-                            sum += rounded; 
+                            sum += rounded;
                             count++;
                         }
                     }
-             
-                if (count == 0)
-                {
-                    Console.WriteLine($"Warning: No integers found in file. Total numbers processed: {numbers.Length}");
-                }
 
-                return sum;
-            }
+                    if (count == 0)
+                    {
+                        Console.WriteLine($"Warning: No integers found in file. Total numbers processed: {numbers.Length}");
+                    }
+
+                    return sum;
+                }
             catch (FileNotFoundException)
             {
                 throw new Exception($"File not found at path: {path}");

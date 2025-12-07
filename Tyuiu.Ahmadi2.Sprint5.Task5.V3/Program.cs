@@ -40,7 +40,7 @@ namespace Tyuiu.Ahmadi2.Sprint5.Task5.V3
 
             try
             {
-                double result = ds.LoadFromDataFile(path);
+                double result = ((global::tyuiu.cources.programming.interfaces.Sprint5.ISprint5Task5V3)ds).LoadFromDataFile(path);
                 Console.WriteLine($"* Сумма = {result}");
             }
             catch (Exception ex)
