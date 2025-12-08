@@ -26,22 +26,46 @@ namespace Tyuiu.Ahmadi2.Sprint5.Task7.V28
             Console.WriteLine("* ИСХОДНЫЕ ДАННЫЕ:                                                        *");
             Console.WriteLine("***************************************************************************");
 
-            string path = @"C:\DataSprint5\InPutDataFileTask7V28.txt";
-            Console.WriteLine("Данные находятся в файле: " + path);
-
-            Console.WriteLine("***************************************************************************");
-            Console.WriteLine("* РЕЗУЛЬТАТ:                                                              *");
-            Console.WriteLine("***************************************************************************");
-
-            string outputPath = ds.LoadDataAndSave(path);
-            Console.WriteLine("Результат сохранен в файле: " + outputPath);
-
-            // نمایش содержимое результата
-            if (File.Exists(outputPath))
+            try
             {
-                string result = File.ReadAllText(outputPath);
-                Console.WriteLine("Содержимое файла результата:");
-                Console.WriteLine(result);
+                string inputPath = @"C:\DataSprint5\InPutDataFileTask7V28.txt";
+
+                if (!File.Exists(inputPath))
+                {
+                    string tempDataDir = Path.Combine(Path.GetTempPath(), "DataSprint5");
+                    if (!Directory.Exists(tempDataDir))
+                    {
+                        Directory.CreateDirectory(tempDataDir);
+                    }
+
+                    inputPath = Path.Combine(tempDataDir, "InPutDataFileTask7V28.txt");
+                    string testData = "Пример     текста    с    несколькими     пробелами.";
+                    File.WriteAllText(inputPath, testData);
+                }
+
+                Console.WriteLine("Данные находятся в файле: " + inputPath);
+
+                Console.WriteLine("***************************************************************************");
+                Console.WriteLine("* РЕЗУЛЬТАТ:                                                              *");
+                Console.WriteLine("***************************************************************************");
+
+                string outputPath = ds.LoadDataAndSave(inputPath);
+                Console.WriteLine("Результат сохранен в файле: " + outputPath);
+
+                if (File.Exists(outputPath))
+                {
+                    string result = File.ReadAllText(outputPath);
+                    Console.WriteLine("Содержимое файла результата:");
+                    Console.WriteLine(result);
+                }
+            }
+            catch (FileNotFoundException ex)
+            {
+                Console.WriteLine($"ОШИБКА: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"ОШИБКА: {ex.Message}");
             }
 
             Console.ReadKey();

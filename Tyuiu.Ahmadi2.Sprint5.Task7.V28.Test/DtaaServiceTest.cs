@@ -10,27 +10,28 @@ namespace Tyuiu.Ahmadi2.Sprint5.Task7.V28.Test
         [TestMethod]
         public void ValidLoadDataAndSave()
         {
-            string path = @"C:\DataSprint5\InPutDataFileTask7V28.txt";
-
-           
-            if (!File.Exists(path))
-            {
-                string testData = "Hello     World    This    is    a    test.";
-                string directory = Path.GetDirectoryName(path);
-                if (!Directory.Exists(directory))
-                {
-                    Directory.CreateDirectory(directory);
-                }
-                File.WriteAllText(path, testData);
-            }
+            string tempPath = Path.GetTempFileName();
+            string testContent = "Hello     World    This    is    a    test.";
+            File.WriteAllText(tempPath, testContent);
 
             DataService ds = new DataService();
-            string outputPath = ds.LoadDataAndSave(path);
+            string outputPath = ds.LoadDataAndSave(tempPath);
 
             string result = File.ReadAllText(outputPath);
             string expected = "Hello World This is a test.";
 
+            File.Delete(tempPath);
+            File.Delete(outputPath);
+
             Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(FileNotFoundException))]
+        public void InvalidPathTest()
+        {
+            DataService ds = new DataService();
+            ds.LoadDataAndSave(@"C:\NonExistentFolder\NonExistentFile.txt");
         }
     }
 }

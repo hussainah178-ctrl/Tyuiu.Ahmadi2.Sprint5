@@ -9,12 +9,16 @@ namespace Tyuiu.Ahmadi2.Sprint5.Task7.V28.Lib
     {
         public string LoadDataAndSave(string path)
         {
-            string content = File.ReadAllText(path);
+            if (!File.Exists(path))
+            {
+                throw new FileNotFoundException($"Файл не найден: {path}");
+            }
 
-            
+            string content = File.ReadAllText(path);
             string result = Regex.Replace(content, @"\s+", " ");
 
-            string outputPath = Path.Combine(Path.GetDirectoryName(path), "OutPutDataFileTask7V28.txt");
+            string outputPath = Path.Combine(Path.GetTempPath(), "OutPutDataFileTask7V28.txt");
+
             File.WriteAllText(outputPath, result);
 
             return outputPath;
