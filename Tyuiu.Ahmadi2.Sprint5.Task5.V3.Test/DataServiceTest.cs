@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.IO;
 using Tyuiu.Ahmadi2.Sprint5.Task5.V3.Lib;
 
@@ -9,79 +8,47 @@ namespace Tyuiu.Ahmadi2.Sprint5.Task5.V3.Test
     public class DataServiceTest
     {
         [TestMethod]
-        public void ValidLoadFromDataFile()
+        public void ValidCalculateFromDataFile()
         {
+            string tempPath = Path.GetTempFileName();
+            string testContent = "10 20.5 30 40.1234 50.678";
+            File.WriteAllText(tempPath, testContent);
+
             DataService ds = new DataService();
-            string path = Path.GetTempFileName();
+            double result = ds.CalculateFromDataFile(tempPath);
 
-            try
-            {
-                // Test case 1: Mixed integers and real numbers
-                string[] testData1 = {
-                    "10",      // integer
-                    "3.14159", // real
-                    "5",       // integer  
-                    "2.71828", // real
-                    "7"        // integer
-                };
+            // 10 + 20.5 + 30 + 40.123 + 50.678 = 151.301
+            double wait = 151.301;
 
-                File.WriteAllLines(path, testData1);
+            File.Delete(tempPath);
 
-                // Expected: 10 + 3.142 + 5 + 2.718 + 7 = 27.86
-                double expected1 = 10 + Math.Round(3.14159, 3) + 5 + Math.Round(2.71828, 3) + 7;
-                expected1 = Math.Round(expected1, 3);
-                double result1 = ((global::tyuiu.cources.programming.interfaces.Sprint5.ISprint5Task5V3)ds).LoadFromDataFile(path);
-                Assert.AreEqual(expected1, result1, 0.001);
+            Assert.AreEqual(wait, result);
+        }
 
-                // Test case 2: Only integers
-                string[] testData2 = { "1", "2", "3", "4", "5" };
-                File.WriteAllLines(path, testData2);
+        [TestMethod]
+        public void ValidCalculateWithNegativeNumbers()
+        {
+            string tempPath = Path.GetTempFileName();
+            string testContent = "-5 10.25 -3.456 7";
+            File.WriteAllText(tempPath, testContent);
 
-                double expected2 = 15; // 1+2+3+4+5
-                double result2 = ((global::tyuiu.cources.programming.interfaces.Sprint5.ISprint5Task5V3)ds).LoadFromDataFile(path);
-                Assert.AreEqual(expected2, result2);
+            DataService ds = new DataService();
+            double result = ds.CalculateFromDataFile(tempPath);
 
-                // Test case 3: Only real numbers
-                string[] testData3 = { "1.234", "2.345", "3.456" };
-                File.WriteAllLines(path, testData3);
+            // -5 + 10.25 + (-3.456) + 7 = 8.794
+            double wait = 8.794;
 
-                double expected3 = Math.Round(1.234, 3) + Math.Round(2.345, 3) + Math.Round(3.456, 3);
-                expected3 = Math.Round(expected3, 3);
-                double result3 = ((global::tyuiu.cources.programming.interfaces.Sprint5.ISprint5Task5V3)ds).LoadFromDataFile(path);
-                Assert.AreEqual(expected3, result3, 0.001);
+            File.Delete(tempPath);
 
-                // Test case 4: Empty lines and spaces
-                string[] testData4 = { " 10 ", "", "  5.678  ", "  ", "3" };
-                File.WriteAllLines(path, testData4);
-
-                double expected4 = 10 + Math.Round(5.678, 3) + 3;
-                expected4 = Math.Round(expected4, 3);
-                double result4 = ((global::tyuiu.cources.programming.interfaces.Sprint5.ISprint5Task5V3)ds).LoadFromDataFile(path);
-                Assert.AreEqual(expected4, result4, 0.001);
-
-                // Test case 5: Negative numbers
-                string[] testData5 = { "-10", "3.5", "-2", "-1.333" };
-                File.WriteAllLines(path, testData5);
-
-                double expected5 = -10 + Math.Round(3.5, 3) + (-2) + Math.Round(-1.333, 3);
-                expected5 = Math.Round(expected5, 3);
-                double result5 = ((global::tyuiu.cources.programming.interfaces.Sprint5.ISprint5Task5V3)ds).LoadFromDataFile(path);
-                Assert.AreEqual(expected5, result5, 0.001);
-            }
-            finally
-            {
-                if (File.Exists(path))
-                    File.Delete(path);
-            }
+            Assert.AreEqual(wait, result);
         }
 
         [TestMethod]
         [ExpectedException(typeof(FileNotFoundException))]
-        public void FileNotFoundLoadFromDataFile()
+        public void InvalidPathTest()
         {
             DataService ds = new DataService();
-            string path = @"C:\NonExistentPath\NonExistentFile.txt";
-            ((global::tyuiu.cources.programming.interfaces.Sprint5.ISprint5Task5V3)ds).LoadFromDataFile(path);
+            ds.CalculateFromDataFile(@"C:\NonExistentFolder\NonExistentFile.txt");
         }
     }
 }

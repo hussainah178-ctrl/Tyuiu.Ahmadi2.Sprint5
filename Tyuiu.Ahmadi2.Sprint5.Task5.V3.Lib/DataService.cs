@@ -1,58 +1,49 @@
 ﻿using System;
 using System.IO;
-using System.Globalization;
+using System.Text.RegularExpressions;
 using tyuiu.cources.programming.interfaces.Sprint5;
 
 namespace Tyuiu.Ahmadi2.Sprint5.Task5.V3.Lib
 {
-    public class DataService : ISprint5Task5V3
+    public class DataService :ISprint5Task5V3
     {
+        public double CalculateFromDataFile(string path)
+        {
+            if (!File.Exists(path))
+            {
+                throw new FileNotFoundException($"Файл не найден: {path}");
+            }
+
+            string content = File.ReadAllText(path);
+            double sum = 0;
+
+            // Regex для поиска всех целых и вещественных чисел
+            MatchCollection matches = Regex.Matches(content, @"[-+]?\d*\.?\d+");
+
+            foreach (Match match in matches)
+            {
+                if (double.TryParse(match.Value.Replace('.', ','), out double number))
+                {
+                    // Если число целое, добавляем как есть
+                    // Если вещественное, округляем до 3 знаков
+                    if (Math.Abs(number - Math.Round(number)) < 0.0000001)
+                    {
+                        sum += number;
+                    }
+                    else
+                    {
+                        sum += Math.Round(number, 3);
+                    }
+                }
+            }
+
+            // Округляем итоговую сумму до 3 знаков
+            return Math.Round(sum, 3);
+        }
+
         public double LoadFromDataFile(string path)
         {
-            double sum = 0;
-            int count = 0; 
-
-            try
-            {
-                string allText = File.ReadAllText(path);
-                string[] numbers = allText.Split(
-                    new char[] { ' ', '\t', '\n', '\r', ',', ';', ':', '|' },
-                    StringSplitOptions.RemoveEmptyEntries
-                );
-
-                foreach (string numStr in numbers)
-                {
-                    if (double.TryParse(numStr,
-                        NumberStyles.Any,
-                        CultureInfo.InvariantCulture,
-                        out double number))
-                    {
-
-                        double rounded = Math.Round(number);
-                        double diff = Math.Abs(number - rounded);
-
-                        if (diff < 0.0000001) 
-                        {
-                            sum += rounded; 
-                            count++;
-                        }
-                    }
-             
-                if (count == 0)
-                {
-                    Console.WriteLine($"Warning: No integers found in file. Total numbers processed: {numbers.Length}");
-                }
-
-                return sum;
-            }
-            catch (FileNotFoundException)
-            {
-                throw new Exception($"File not found at path: {path}");
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Error reading file: {ex.Message}");
-            }
+            throw new NotImplementedException();
         }
     }
 }

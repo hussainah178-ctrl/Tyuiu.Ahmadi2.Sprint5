@@ -10,45 +10,61 @@ namespace Tyuiu.Ahmadi2.Sprint5.Task5.V3
         {
             DataService ds = new DataService();
 
-            // Use temp directory as suggested
-            string tempPath = Path.GetTempPath();
-            string path = Path.Combine(tempPath, "InPutDataFileTask5V3.txt");
-
-            // Create sample file if it doesn't exist
-            if (!File.Exists(path))
-            {
-                string[] sampleData = {
-                    "10",
-                    "3.14159",
-                    "5",
-                    "2.71828",
-                    "7",
-                    "1.61803"
-                };
-                File.WriteAllLines(path, sampleData);
-            }
-
+            Console.Title = "Спринт #5 | Выполнил: Ахмади Х.Х. | СМАРТб-23-1";
+            Console.WriteLine("***************************************************************************");
+            Console.WriteLine("* Спринт #5                                                               *");
+            Console.WriteLine("* Тема: Чтение данных из текстового файла                                 *");
+            Console.WriteLine("* Задание #5                                                              *");
+            Console.WriteLine("* Вариант #3                                                              *");
+            Console.WriteLine("* Выполнил: Ахмади Х.Х. | СМАРТб-23-1                                     *");
+            Console.WriteLine("***************************************************************************");
+            Console.WriteLine("* УСЛОВИЕ:                                                                *");
+            Console.WriteLine("* Дан файл, в котором есть набор значений. Найти сумму всех целых чисел  *");
+            Console.WriteLine("* в файле. У вещественных значений округлить до трёх знаков после запятой.*");
+            Console.WriteLine("* Полученный результат вывести на консоль.                                *");
+            Console.WriteLine("*                                                                         *");
             Console.WriteLine("***************************************************************************");
             Console.WriteLine("* ИСХОДНЫЕ ДАННЫЕ:                                                        *");
-            Console.WriteLine("***************************************************************************");
-            Console.WriteLine($"* Файл: {path}");
-            Console.WriteLine("* Необходимо найти сумму всех целых чисел в файле.");
-            Console.WriteLine("* У вещественных значений округлить до трёх знаков после запятой.");
-            Console.WriteLine("***************************************************************************");
-            Console.WriteLine("* РЕЗУЛЬТАТ:                                                             *");
             Console.WriteLine("***************************************************************************");
 
             try
             {
-                double result = ((global::tyuiu.cources.programming.interfaces.Sprint5.ISprint5Task5V3)ds).LoadFromDataFile(path);
-                Console.WriteLine($"* Сумма = {result}");
+                string inputPath = @"C:\DataSprint5\InPutDataFileTask5V3.txt";
+
+                if (!File.Exists(inputPath))
+                {
+                    string tempDataDir = Path.Combine(Path.GetTempPath(), "DataSprint5");
+                    if (!Directory.Exists(tempDataDir))
+                    {
+                        Directory.CreateDirectory(tempDataDir);
+                    }
+
+                    inputPath = Path.Combine(tempDataDir, "InPutDataFileTask5V3.txt");
+                    string testData = "15 25.5 30.123 45 50.789 60.456";
+                    File.WriteAllText(inputPath, testData);
+                    Console.WriteLine("Создан тестовый файл: " + inputPath);
+                }
+
+                Console.WriteLine("Данные находятся в файле: " + inputPath);
+
+                Console.WriteLine("***************************************************************************");
+                Console.WriteLine("* РЕЗУЛЬТАТ:                                                              *");
+                Console.WriteLine("***************************************************************************");
+
+                double result = ds.CalculateFromDataFile(inputPath);
+                Console.WriteLine("Сумма всех чисел (с округлением вещественных до 3 знаков) = " + result);
+            }
+            catch (FileNotFoundException ex)
+            {
+                Console.WriteLine($"ОШИБКА: {ex.Message}");
+                Console.WriteLine("Убедитесь, что файл InPutDataFileTask5V3.txt существует!");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"* Ошибка: {ex.Message}");
+                Console.WriteLine($"ОШИБКА: {ex.Message}");
             }
 
-            Console.WriteLine("***************************************************************************");
+            Console.WriteLine("\nНажмите любую клавишу для завершения...");
             Console.ReadKey();
         }
     }
