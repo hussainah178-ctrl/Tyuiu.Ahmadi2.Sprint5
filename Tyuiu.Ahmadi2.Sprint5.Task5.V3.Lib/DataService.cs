@@ -22,7 +22,7 @@ namespace Tyuiu.Ahmadi2.Sprint5.Task5.V3.Lib
                         {
                             line = line.Replace('.', ',');
 
-                            if (double.TryParse(line, out double number))
+                            if (double.TryParse(line, out double number))  
                             {
                                 if (number == (int)number)
                                 {
