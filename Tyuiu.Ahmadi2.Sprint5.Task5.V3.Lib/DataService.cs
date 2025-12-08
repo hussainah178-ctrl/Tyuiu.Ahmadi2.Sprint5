@@ -17,27 +17,21 @@ namespace Tyuiu.Ahmadi2.Sprint5.Task5.V3.Lib
             string content = File.ReadAllText(path);
             double sum = 0;
 
-            // Regex для поиска всех целых и вещественных чисел
-            MatchCollection matches = Regex.Matches(content, @"[-+]?\d*\.?\d+");
+            // Regex для поиска всех чисел
+            string pattern = @"[-]?\d+(?:[.,]\d+)?";
+            MatchCollection matches = Regex.Matches(content, pattern);
 
             foreach (Match match in matches)
             {
-                if (double.TryParse(match.Value.Replace('.', ','), out double number))
+                // Заменяем точку на запятую для правильного парсинга
+                string numberStr = match.Value.Replace('.', ',');
+                if (double.TryParse(numberStr, out double number))
                 {
-                    // Если число целое, добавляем как есть
-                    // Если вещественное, округляем до 3 знаков
-                    if (Math.Abs(number - Math.Round(number)) < 0.0000001)
-                    {
-                        sum += number;
-                    }
-                    else
-                    {
-                        sum += Math.Round(number, 3);
-                    }
+                    // Округляем до 3 знаков для всех чисел
+                    sum += Math.Round(number, 3);
                 }
             }
 
-            // Округляем итоговую сумму до 3 знаков
             return Math.Round(sum, 3);
         }
 

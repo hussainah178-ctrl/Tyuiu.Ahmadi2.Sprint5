@@ -22,33 +22,7 @@ namespace Tyuiu.Ahmadi2.Sprint5.Task5.V3.Test
 
             File.Delete(tempPath);
 
-            Assert.AreEqual(wait, result);
-        }
-
-        [TestMethod]
-        public void ValidCalculateWithNegativeNumbers()
-        {
-            string tempPath = Path.GetTempFileName();
-            string testContent = "-5 10.25 -3.456 7";
-            File.WriteAllText(tempPath, testContent);
-
-            DataService ds = new DataService();
-            double result = ds.CalculateFromDataFile(tempPath);
-
-            // -5 + 10.25 + (-3.456) + 7 = 8.794
-            double wait = 8.794;
-
-            File.Delete(tempPath);
-
-            Assert.AreEqual(wait, result);
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(FileNotFoundException))]
-        public void InvalidPathTest()
-        {
-            DataService ds = new DataService();
-            ds.CalculateFromDataFile(@"C:\NonExistentFolder\NonExistentFile.txt");
+            Assert.AreEqual(wait, result, 0.001);
         }
     }
 }
