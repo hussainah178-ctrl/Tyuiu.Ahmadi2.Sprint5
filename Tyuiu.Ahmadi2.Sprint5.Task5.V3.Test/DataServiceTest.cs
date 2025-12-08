@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.IO;
 using Tyuiu.Ahmadi2.Sprint5.Task5.V3.Lib;
 
@@ -8,21 +9,34 @@ namespace Tyuiu.Ahmadi2.Sprint5.Task5.V3.Test
     public class DataServiceTest
     {
         [TestMethod]
-        public void ValidCalculateFromDataFile()
+        public void ValidLoadFromDataFile()
         {
-            string tempPath = Path.GetTempFileName();
-            string testContent = "10 20.5 30 40.1234 50.678";
-            File.WriteAllText(tempPath, testContent);
-
             DataService ds = new DataService();
-            double result = ds.CalculateFromDataFile(tempPath);
 
-            // 10 + 20.5 + 30 + 40.123 + 50.678 = 151.301
-            double wait = 151.301;
+            string path = @"C:\DataSprint\3\3.txt";
 
-            File.Delete(tempPath);
+            if (!File.Exists(path))
+            {
+                // Create test file if original doesn't exist
+                path = Path.GetTempFileName();
+                string testData = "10\n15.5\n20\n3.14159\n7\n8.888\n";
+                File.WriteAllText(path, testData);
+            }
 
-            Assert.AreEqual(wait, result, 0.001);
+            double res = ds.LoadFromDataFile(path);
+            double wait = 10 + Math.Round(15.5, 3) + 20 + Math.Round(3.14159, 3) + 7 + Math.Round(8.888, 3);
+            wait = Math.Round(wait, 3);
+
+            Assert.AreEqual(wait, res);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception))]
+        public void InvalidFileLoadFromDataFile()
+        {
+            DataService ds = new DataService();
+            string path = @"C:\NonExistentFolder\NonExistentFile.txt";
+            double res = ds.LoadFromDataFile(path);
         }
     }
 }
