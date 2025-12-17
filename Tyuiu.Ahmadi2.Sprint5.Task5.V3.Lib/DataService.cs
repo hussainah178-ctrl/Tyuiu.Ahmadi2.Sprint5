@@ -4,46 +4,28 @@ using tyuiu.cources.programming.interfaces.Sprint5;
 
 namespace Tyuiu.Ahmadi2.Sprint5.Task5.V3.Lib
 {
-    public class DataService :ISprint5Task5V3
+    public class DataService : ISprint5Task5V3
     {
         public double LoadFromDataFile(string path)
         {
-            double sum = 0;
+            if (!File.Exists(path))
+                throw new FileNotFoundException($"File not found: {path}");
 
-            try
+            string text = File.ReadAllText(path);
+
+            int count = 0;
+
+            foreach (char ch in text)
             {
-                using (StreamReader reader = new StreamReader(path))
+                if ((ch >= 'A' && ch <= 'Z') ||
+                    (ch >= 'a' && ch <= 'z'))
                 {
-                    string line;
-                    while ((line = reader.ReadLine())
-                        != null)
-                    {
-                        line = line.Trim();
-                        if (!string.IsNullOrEmpty(line))
-                        {
-                            line = line.Replace('.', ',');
-
-                            if (double.TryParse(line, out double number))
-                            {
-                                if (number == (int)number)
-                                {
-                                    sum += number;
-                                }
-                                else
-                                {
-                                    sum += Math.Round(number, 3);
-                                }
-                            }
-                        }
-                    }
+                    count++;
                 }
+            }
 
-                return Math.Round(sum, 3);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Error reading file: {ex.Message}");
-            }
+            // интерфейс, скорее всего, требует double, поэтому приводим
+            return count;
         }
     }
 }
