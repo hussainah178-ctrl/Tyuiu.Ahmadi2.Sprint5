@@ -14,23 +14,25 @@ namespace Tyuiu.Ahmadi2.Sprint5.Task5.V3.Lib
 
             double sum = 0;
 
-            using (StreamReader reader = new StreamReader(path))
-            {
-                string line;
-                while ((line = reader.ReadLine()) != null)
-                {
-                    line = line.Trim();
-                    if (string.IsNullOrEmpty(line))
-                        continue;
+            // خواندن تمام خطوط فایل
+            string[] lines = File.ReadAllLines(path);
 
-                    // اگر خط فقط شامل عدد است
-                    if (double.TryParse(line, NumberStyles.Any, CultureInfo.InvariantCulture, out double value))
+            foreach (string line in lines)
+            {
+                string trimmedLine = line.Trim();
+                if (string.IsNullOrEmpty(trimmedLine))
+                    continue;
+
+                // امتحان کردن انواع فرمت‌های عددی
+                if (double.TryParse(trimmedLine,
+                    NumberStyles.Any,
+                    CultureInfo.InvariantCulture,
+                    out double number))
+                {
+                    // بررسی آیا عدد صحیح است (بدون اعشار)
+                    if (Math.Abs(number - Math.Truncate(number)) < 0.0000001)
                     {
-                        // بررسی آیا عدد صحیح است (بدون جزء اعشاری)
-                        if (Math.Abs(value % 1) <= double.Epsilon * 100)
-                        {
-                            sum += (int)value; // یا sum += value
-                        }
+                        sum += number;
                     }
                 }
             }
